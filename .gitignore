@@ -1,0 +1,10 @@
+.idea
+node_modules
+coverage
+local-test
+package/aux4-secret-aux4
+package/dist
+go.sum
+**/.DS_Store
+**/*.zip
+/secret-aux4

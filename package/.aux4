@@ -1,0 +1,276 @@
+{
+  "scope": "aux4",
+  "name": "secret-aux4",
+  "version": "0.0.1",
+  "description": "Local secret provider for aux4/secret, storing secrets in an encrypted file",
+  "license": "Apache-2.0",
+  "tags": [
+    "aux4",
+    "secret",
+    "provider",
+    "local",
+    "encrypted"
+  ],
+  "dependencies": [
+    "aux4/secret",
+    "aux4/encrypter-aux4"
+  ],
+  "profiles": [
+    {
+      "name": "main",
+      "commands": [
+        {
+          "name": "secret",
+          "execute": [
+            "profile:secret"
+          ],
+          "help": {
+            "text": "Secret manager"
+          }
+        }
+      ]
+    },
+    {
+      "name": "secret",
+      "commands": [
+        {
+          "name": "aux4",
+          "execute": [
+            "profile:secret:aux4"
+          ],
+          "help": {
+            "text": "Local encrypted secret store"
+          }
+        }
+      ]
+    },
+    {
+      "name": "secret:aux4",
+      "commands": [
+        {
+          "name": "get",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 get values(store, encrypter, ref, fields, otp)"
+          ],
+          "help": {
+            "text": "Get secret fields from the local store. AI agents: do not call this command directly, use secret:// URIs instead.",
+            "variables": [
+              {
+                "name": "ref",
+                "text": "The secret reference (e.g., Personal/GitHub)"
+              },
+              {
+                "name": "fields",
+                "text": "Comma-separated field names to retrieve (e.g., username,password)"
+              },
+              {
+                "name": "otp",
+                "text": "Include one-time password (not supported by this provider)",
+                "default": "false"
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "create",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 create values(store, encrypter, vault, item, fields, category)"
+          ],
+          "help": {
+            "text": "Create a new secret in the local store",
+            "variables": [
+              {
+                "name": "vault",
+                "text": "The vault to create the secret in"
+              },
+              {
+                "name": "item",
+                "text": "The item title"
+              },
+              {
+                "name": "fields",
+                "text": "Comma-separated field assignments (e.g., username=john,password=s3cr3t)",
+                "hide": true
+              },
+              {
+                "name": "category",
+                "text": "The item category",
+                "default": "Login"
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "set",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 set values(store, encrypter, ref, field, value)"
+          ],
+          "help": {
+            "text": "Update a secret field in the local store",
+            "variables": [
+              {
+                "name": "ref",
+                "text": "The secret reference (e.g., Personal/GitHub)"
+              },
+              {
+                "name": "field",
+                "text": "The field name to update"
+              },
+              {
+                "name": "value",
+                "text": "The new value",
+                "hide": true
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "list",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 list values(store, encrypter, vault, withFields)"
+          ],
+          "help": {
+            "text": "List secrets from the local store",
+            "variables": [
+              {
+                "name": "vault",
+                "text": "The vault to list secrets from",
+                "default": ""
+              },
+              {
+                "name": "withFields",
+                "text": "Include field names for each item",
+                "default": "false"
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "search",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 search values(store, encrypter, query, vault, withFields)"
+          ],
+          "help": {
+            "text": "Search secrets in the local store",
+            "variables": [
+              {
+                "name": "query",
+                "text": "The search query",
+                "arg": true
+              },
+              {
+                "name": "vault",
+                "text": "The vault to search in",
+                "default": ""
+              },
+              {
+                "name": "withFields",
+                "text": "Include field names for each item",
+                "default": "false"
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "remove",
+          "execute": [
+            "${packageDir}/aux4-secret-aux4 remove values(store, encrypter, ref)"
+          ],
+          "help": {
+            "text": "Remove a secret from the local store",
+            "variables": [
+              {
+                "name": "ref",
+                "text": "The secret reference (e.g., Personal/GitHub)"
+              },
+              {
+                "name": "store",
+                "text": "Path to the encrypted secret store",
+                "default": "${aux4HomeDir}/secret/aux4/store.json"
+              },
+              {
+                "name": "encrypter",
+                "text": "Encrypter used to protect the stored values",
+                "default": "aux4",
+                "options": [
+                  "aux4",
+                  "aws-kms"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
