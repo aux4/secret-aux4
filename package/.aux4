@@ -1,7 +1,7 @@
 {
   "scope": "aux4",
   "name": "secret-aux4",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Local secret provider for aux4/secret, storing secrets in an encrypted file",
   "license": "Apache-2.0",
   "tags": [
